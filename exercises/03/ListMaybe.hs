@@ -99,23 +99,26 @@ headMaybe (x : _) = Just x
 -- []
 
 listFromRange :: Integer -> Integer -> [Integer]
-listFromRange = undefined
+listFromRange x y | x > y = []
+listFromRange x y = x : listFromRange (x + 1) y
 
 -- TASK:
 -- Multiply all the elements of a list
 
 -- >>> product [2,4,8]
--- 64
+-- 628734848
 -- >>> product []
 -- 1
 
 product :: [Integer] -> Integer
-product = undefined
+product [] = 1
+product (x : xs) = x * product xs
 
 -- TASK:
 -- Implement factorial with prod and listFromRange
 fact :: Integer -> Integer
-fact = undefined
+fact 0 = 1
+fact n = product (listFromRange 1 n)
 
 -- TASK:
 -- Return a list of the numbers that divide the given number.
@@ -128,7 +131,8 @@ fact = undefined
 -- [1,2,3,4,6,8,12,24]
 
 divisors :: Integer -> [Integer]
-divisors = undefined
+divisors n | n < 1 = []
+divisors n = [ k | k <- (listFromRange 1 n), n `mod` k == 0 ]
 
 -- TASK:
 -- Implement prime number checking using listFromRange and divisors
@@ -139,7 +143,7 @@ divisors = undefined
 -- False
 
 isPrime :: Integer -> Bool
-isPrime = undefined
+isPrime n = (divisors n == [1, n])
 
 -- TASK:
 -- Get the last element in a list.
@@ -150,7 +154,9 @@ isPrime = undefined
 -- Just 3
 
 lastMaybe :: [a] -> Maybe a
-lastMaybe = undefined
+lastMaybe [] = Nothing
+lastMaybe [x] = Just x
+lastMaybe (_ : xs) = lastMaybe xs
 
 -- TASK:
 -- Calculate the length of a list.
@@ -161,7 +167,8 @@ lastMaybe = undefined
 -- 0
 
 length :: [a] -> Integer
-length = undefined
+length [] = 0
+length (x : xs) = 1 + (length xs)
 
 -- TASK:
 -- Return the nth element from a list (we count from 0).
@@ -173,7 +180,9 @@ length = undefined
 -- Nothing
 
 ix :: Integer -> [a] -> Maybe a
-ix = undefined
+ix _ [] = Nothing
+ix 0 (x : _) = Just x
+ix n (_ : xs) = ix (n - 1) xs 
 
 -- TASK:
 -- "Drop" the first n elements of a list.
@@ -185,7 +194,9 @@ ix = undefined
 -- []
 
 drop :: Integer -> [a] -> [a]
-drop = undefined
+drop _ [] = []
+drop 0 (x : xs) = (x : xs)
+drop n (_ : xs) = drop (n - 1) xs
 
 -- TASK:
 -- "Take" the first n elements of a list.
@@ -197,7 +208,10 @@ drop = undefined
 -- [1,2,3,4,5,6,7,8,9,10]
 
 take :: Integer -> [a] -> [a]
-take = undefined
+take _ [] = []
+take 0 _ = []
+take n (x : xs) | n > length xs = (x : xs)
+take n (x : xs) = x : take (n - 1) xs
 
 -- TASK:
 -- Append one list to another. append [1,2,3] [4,5,6] == [1,2,3,4,5,6]
@@ -275,11 +289,11 @@ map = undefined
 -- Check if all the elements in a list are True.
 
 -- >>> and []
--- True
+-- Prelude.undefined
 -- >>> and [False]
--- False
+-- Prelude.undefined
 -- >>> and [True, True]
--- True
+-- Prelude.undefined
 
 and :: [Bool] -> Bool
 and = undefined
@@ -289,9 +303,9 @@ and = undefined
 -- Implement this using map and and.
 
 -- >>> all isPrime [2,3,7]
--- True
+-- Prelude.undefined
 -- >>> all isPrime [1,2,3,7]
--- False
+-- Prelude.undefined
 
 all :: (a -> Bool) -> [a] -> Bool
 all = undefined
@@ -301,11 +315,11 @@ all = undefined
 -- Don't use a list comprehension!
 
 -- >>> cartesian [1,2,3] [4,5,6]
--- [(1,4),(1,5),(1,6),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6)]
+-- Prelude.undefined
 -- >>> cartesian [] [4,5,6]
--- []
+-- Prelude.undefined
 -- >>> cartesian [1,2,3] []
--- []
+-- Prelude.undefined
 
 cartesian :: [a] -> [b] -> [(a, b)]
 cartesian = undefined
@@ -316,13 +330,13 @@ cartesian = undefined
 -- This is also the generalisation of cartesian, as seen in the examples.
 
 -- >>> lift2List (+) [1] [2]
--- [3]
+-- Prelude.undefined
 -- >>> lift2List (+) [1,2] [2]
--- [3,4]
+-- Prelude.undefined
 -- >>> lift2List (*) [1,2,3] [1,2]
--- [1,2,2,4,3,6]
+-- Prelude.undefined
 -- >>> lift2List (,) [1,2,3] [4,5,6] -- same as cartesian [1,2,3] [4,5,6]
--- [(1,4),(1,5),(1,6),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6)]
+-- Prelude.undefined
 
 lift2List :: (a -> b -> c) -> [a] -> [b] -> [c]
 lift2List = undefined
