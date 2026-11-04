@@ -17,6 +17,7 @@
 module Folds where
 
 import Prelude hiding (all, and, concat, drop, filter, foldr, length, map, null, or, product, reverse, subtract, sum, take, zip, zipWith, (++))
+--import ADTs (integerToNat)
 
 -- TODO: talk about
 -- first homework deadline soon! (ask if more time is needed)
@@ -115,10 +116,11 @@ natToInteger = foldNat 0 (+ 1)
 -- Implement exponentiation(n ^ m) using foldNat.
 
 -- >>> natToInteger $ expNat (integerToNat 2) (integerToNat 10)
--- 1024
+-- Variable not in scope: integerToNat :: t1_aQUJ[tau:1] -> Nat
+-- Variable not in scope: integerToNat :: t0_aQUW[tau:1] -> Nat
 
 expNat :: Nat -> Nat -> Nat
-expNat = undefined
+expNat n m = foldNat (Succ (Zero)) (multNat n) m
 
 ---------------
 -- EXERCISES --
