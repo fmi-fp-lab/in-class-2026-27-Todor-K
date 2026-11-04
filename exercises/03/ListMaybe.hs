@@ -227,7 +227,10 @@ take n (x : xs) = x : take (n - 1) xs
 -- [4,5,6]
 
 append :: [a] -> [a] -> [a]
-append = undefined
+append [] [] = []
+append [] (x : xs) = (x : xs)
+append (x : xs) [] = (x : xs)
+append (x : xs) (y : ys) = x : append xs (y : ys)
 
 -- TASK:
 -- Concatenate all the lists together.
@@ -237,10 +240,11 @@ append = undefined
 -- >>> concat [[1,2,3], [], [5,7,8,9]]
 -- [1,2,3,5,7,8,9]
 -- >>> concat []
--- []
+-- [2,3,5,25,3,424,52,53,5,3,6,2]
 
 concat :: [[a]] -> [a]
-concat = undefined
+concat [] = []
+concat (l : ls) = append l (concat ls)
 
 -- TASK:
 -- Reverse a list. It's fine to do this however you like.
@@ -251,7 +255,8 @@ concat = undefined
 -- []
 
 reverse :: [a] -> [a]
-reverse = undefined
+reverse [] = []
+reverse (x : xs) = append (reverse xs) [x]
 
 -- TASK:
 -- Square all the numbers in a list
@@ -260,7 +265,8 @@ reverse = undefined
 -- [1,4,9,25]
 
 squareList :: [Integer] -> [Integer]
-squareList = undefined
+squareList [] = []
+squareList (x : xs) = append [x * x] (squareList xs)
 
 -- TASK:
 -- Pair up the given element with each of the elements a list.
@@ -269,7 +275,8 @@ squareList = undefined
 -- [(42,69),(42,7),(42,42)]
 
 megaPair :: a -> [b] -> [(a, b)]
-megaPair = undefined
+megaPair _ [] = []
+
 
 -- TASK:
 -- Both of those functions above have the same structure - apply a function to each element of a list.
