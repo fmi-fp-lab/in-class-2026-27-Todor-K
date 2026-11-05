@@ -168,7 +168,7 @@ lastMaybe (_ : xs) = lastMaybe xs
 
 length :: [a] -> Integer
 length [] = 0
-length (x : xs) = 1 + (length xs)
+length (_ : xs) = 1 + (length xs)
 
 -- TASK:
 -- Return the nth element from a list (we count from 0).
@@ -276,6 +276,8 @@ squareList (x : xs) = append [x * x] (squareList xs)
 
 megaPair :: a -> [b] -> [(a, b)]
 megaPair _ [] = []
+megaPair a (x : xs) = (a, x) : (megaPair a xs)
+
 
 
 -- TASK:
@@ -283,53 +285,59 @@ megaPair _ [] = []
 -- We can abstract this and get one of the most useful functions over lists (and containers in general).
 
 -- >>> map succ [1,2,3]
--- [2,3,4]
+-- [2,3,4,457557]
 -- >>> map (\x -> x * x) [1,2,3] -- same as squareList
 -- [1,4,9]
 -- >>> map (\x -> (3,x)) [1,2,3] -- same as megaPair 3
 -- [(3,1),(3,2),(3,3)]
 
 map :: (a -> b) -> [a] -> [b]
-map = undefined
+map _ [] = []
+map f (x : xs) = f x : (map f xs)  
 
 -- TASK:
 -- Check if all the elements in a list are True.
 
 -- >>> and []
--- Prelude.undefined
+-- True
 -- >>> and [False]
--- Prelude.undefined
+-- False
 -- >>> and [True, True]
--- Prelude.undefined
+-- True
 
 and :: [Bool] -> Bool
-and = undefined
+and [] = True
+and (x : xs) = x && and xs
 
 -- TASK:
 -- Check if all the elements of a list satisfy a predicate
 -- Implement this using map and and.
 
 -- >>> all isPrime [2,3,7]
--- Prelude.undefined
+-- True
 -- >>> all isPrime [1,2,3,7]
--- Prelude.undefined
+-- False
 
 all :: (a -> Bool) -> [a] -> Bool
-all = undefined
+all _ [] = True
+all p l = and (map p l)
 
 -- TASK:
 -- Implement the cartesian product of two lists.
 -- Don't use a list comprehension!
 
 -- >>> cartesian [1,2,3] [4,5,6]
--- Prelude.undefined
+-- [(1,4),(1,5),(1,6),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6)]
 -- >>> cartesian [] [4,5,6]
--- Prelude.undefined
+-- []
 -- >>> cartesian [1,2,3] []
--- Prelude.undefined
+-- []
 
 cartesian :: [a] -> [b] -> [(a, b)]
-cartesian = undefined
+cartesian _ [] = []
+cartesian [] _ = []
+cartesian [a] (x : xs) = (a, x) : cartesian [a] xs
+cartesian (x : xs) (y : ys) = append (cartesian [x] (y : ys)) (cartesian xs (y : ys))
 
 -- TASK:
 -- We can generalise cartesian to work with arbitrary functions instead of just (,),
@@ -337,16 +345,19 @@ cartesian = undefined
 -- This is also the generalisation of cartesian, as seen in the examples.
 
 -- >>> lift2List (+) [1] [2]
--- Prelude.undefined
+-- [3]
 -- >>> lift2List (+) [1,2] [2]
--- Prelude.undefined
+-- [3,4]
 -- >>> lift2List (*) [1,2,3] [1,2]
--- Prelude.undefined
+-- [1,2,2,4,3,6]
 -- >>> lift2List (,) [1,2,3] [4,5,6] -- same as cartesian [1,2,3] [4,5,6]
--- Prelude.undefined
+-- [(1,4),(1,5),(1,6),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6)]
 
 lift2List :: (a -> b -> c) -> [a] -> [b] -> [c]
-lift2List = undefined
+lift2List _ _ [] = []
+lift2List _ [] _ = []
+lift2List f [a] (b : bs) = (f a b) : lift2List f [a] bs
+lift2List f (a : as) (b : bs) = append (lift2List f [a] (b : bs)) (lift2List f as (b : bs))
 
 -- TASK:
 -- The "filtering" part of a list comprehension - leave only those elements, that satisfy the given predicate.
@@ -361,7 +372,11 @@ lift2List = undefined
 -- [2,3,5,7,11,13,17,19]
 
 filter :: (a -> Bool) -> [a] -> [a]
-filter = undefined
+filter _ [] = []
+filter p (x : xs) = 
+  if p x 
+    then x : filter p xs 
+    else filter p xs
 
 data Digit
     = Zero
@@ -398,7 +413,18 @@ data Digit
 -- Nothing
 
 parseDigit :: Char -> Maybe Digit
-parseDigit = undefined
+parseDigit = \case 
+  '0' -> Just Zero
+  '1' -> Just One
+  '2' -> Just Two
+  '3' -> Just Three
+  '4' -> Just Four
+  '5' -> Just Five
+  '6' -> Just Six
+  '7' -> Just Seven
+  '8' -> Just Eight
+  '9' -> Just Nine
+  _ -> Nothing
 
 -- TASK:
 -- See if all the values in a list xs are Just, returning Just xs only if they are.

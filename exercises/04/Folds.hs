@@ -122,8 +122,7 @@ natToInteger = foldNat 0 (+ 1)
 -- Implement exponentiation(n ^ m) using foldNat.
 
 -- >>> natToInteger $ expNat (integerToNat 2) (integerToNat 10)
--- Variable not in scope: integerToNat :: t1_aQUJ[tau:1] -> Nat
--- Variable not in scope: integerToNat :: t0_aQUW[tau:1] -> Nat
+-- 1024
 
 expNat :: Nat -> Nat -> Nat
 expNat n m = foldNat (Succ (Zero)) (multNat n) m
@@ -141,7 +140,7 @@ expNat n m = foldNat (Succ (Zero)) (multNat n) m
 -- True
 
 and :: [Bool] -> Bool
-and = undefined
+and = foldr True (&&)
 
 -- TASK:
 -- Implement or using foldr
@@ -152,7 +151,7 @@ and = undefined
 -- True
 
 or :: [Bool] -> Bool
-or = undefined
+or = foldr False (||)
 
 -- TASK:
 -- Implement length using foldr
@@ -163,7 +162,7 @@ or = undefined
 -- 0
 
 length :: [a] -> Integer
-length = undefined
+length = foldr 0 (\_ l -> l + 1)
 
 -- TASK:
 -- Implement (++) using foldr
@@ -185,7 +184,7 @@ length = undefined
 -- []
 
 concat :: [[a]] -> [a]
-concat = undefined
+concat = foldr [] (\x l -> append x l)
 
 -- TASK:
 -- Implement reverse using foldr (it's fine to do this in `O(n^2)`)
@@ -196,7 +195,7 @@ concat = undefined
 -- []
 
 reverse :: [a] -> [a]
-reverse = undefined
+reverse = foldr [] (\x l -> append l [x])
 
 -- TASK:
 -- Implement map using foldr
@@ -209,7 +208,7 @@ reverse = undefined
 -- [(3,1),(3,2),(3,3)]
 
 map :: (a -> b) -> [a] -> [b]
-map = undefined
+map f = foldr [] (\x l -> (f x) : l)
 
 -- TASK:
 -- Implement filter using foldr
@@ -224,7 +223,7 @@ map = undefined
 -- [2,3,5,7,11,13,17,19]
 
 filter :: (a -> Bool) -> [a] -> [a]
-filter = undefined
+filter p = foldr [] (\x l -> if p x then x : l else l)
 
 -- TASK:
 -- Implement null using foldr
