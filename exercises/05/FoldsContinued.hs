@@ -1,5 +1,5 @@
 -- vim: set fdm=marker:
-
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 -- cover all cases!
@@ -98,7 +98,19 @@ data Digit
 -- Nothing
 
 parseDigit :: Char -> Maybe Digit
-parseDigit = undefined
+parseDigit = \case
+  0 -> Just DZero
+  1 -> Just One
+  2 -> Just Two
+  3 -> Just Three
+  4 -> Just Four
+  5 -> Just Five
+  6 -> Just Six
+  7 -> Just Seven
+  8 -> Just Eight
+  9 -> Just Nine
+  _ -> Nothing
+
 
 -- TASK:
 -- See if all the values in a list xs are Just, returning Just xs only if they are.
