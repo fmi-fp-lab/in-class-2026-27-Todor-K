@@ -99,16 +99,16 @@ data Digit
 
 parseDigit :: Char -> Maybe Digit
 parseDigit = \case
-  0 -> Just DZero
-  1 -> Just One
-  2 -> Just Two
-  3 -> Just Three
-  4 -> Just Four
-  5 -> Just Five
-  6 -> Just Six
-  7 -> Just Seven
-  8 -> Just Eight
-  9 -> Just Nine
+  '0' -> Just DZero
+  '1' -> Just One
+  '2' -> Just Two
+  '3' -> Just Three
+  '4' -> Just Four
+  '5' -> Just Five
+  '6' -> Just Six
+  '7' -> Just Seven
+  '8' -> Just Eight
+  '9' -> Just Nine
   _ -> Nothing
 
 

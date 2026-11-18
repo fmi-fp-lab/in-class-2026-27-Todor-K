@@ -446,7 +446,7 @@ parseDigit = \case
 validateList :: [Maybe a] -> Maybe [a]
 validateList [] = Just []
 validateList (Nothing : _) = Nothing
-validateList (Just x : xs) = Just (x : validateList xs)  
+--validateList (Just x : xs) = Just (x : validateList xs)  
 
 -- TASK:
 -- You often have a collection (list) of things, for each of which you want to
